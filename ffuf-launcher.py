@@ -56,7 +56,7 @@ WORDLISTS_CHOICES = {
     "directory-list-2.3-medium.txt": "/usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt",
     "directory-list-2.3-big.txt": "/usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-big.txt",
     "Bo0oM-fuzz.txt": "/usr/share/Bo0oM-fuzz.txt",
-    "onelistforallmicro.txt": "/opt/OneListForAl/onelistforallmicro.txt",
+    "onelistforallmicro.txt": "/opt/OneListForAll/onelistforallmicro.txt",
 }
 
 ## Adapt these paths with your personal filesystem
