@@ -82,6 +82,9 @@ else:
 #########################
 extensions_question = [inquirer.Checkbox('choice', message="What extensions do you want to fuzz?", choices=EXTENSIONS_CHOICES)]
 extension_as_list = inquirer.prompt(extensions_question)["choice"]
+if len(extension_as_list) == 0: 
+    print(f"{Fore.RED}[!] Extension should not be empty{Style.RESET_ALL}")
+    sys.exit(1)
 
 extensions = ",".join(extension_as_list)
 args = " ".join(sys.argv[1:])
@@ -90,4 +93,5 @@ args = " ".join(sys.argv[1:])
 # Running ffuf
 #########################
 cmd = f"ffuf -c -r -w {wordlist} -o scan-ffuf.txt -e {extensions} -t 64 -mc all -fc 404 -u {args}"
+print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{cmd}\"")
 os.system(cmd)
