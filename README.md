@@ -29,6 +29,9 @@ $> sudo apt install fzf
 
 # https://github.com/ffuf/ffuf
 $> go install github.com/ffuf/ffuf@lates
+
+# Add an alias for the fun
+$> alias ffufscan="$(pwd)/ffuf-launcher.py"
 ```
 ## Use
 
