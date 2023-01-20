@@ -6,7 +6,7 @@ import argparse
 import sys
 import os
 from distutils.spawn import find_executable
-from colorama import init, Fore, Style
+from colorama import init, Fore, Back, Style
 
 #########################
 # Init
@@ -83,8 +83,7 @@ else:
 extensions_question = [inquirer.Checkbox('choice', message="What extensions do you want to fuzz?", choices=EXTENSIONS_CHOICES)]
 extension_as_list = inquirer.prompt(extensions_question)["choice"]
 if len(extension_as_list) == 0: 
-    print(f"{Fore.RED}[!] Extension should not be empty{Style.RESET_ALL}")
-    sys.exit(1)
+    print(f"{Fore.YELLOW}[!] You have not selected any extension{Style.RESET_ALL}")
 
 extensions = ",".join(extension_as_list)
 args = " ".join(sys.argv[1:])
@@ -92,6 +91,11 @@ args = " ".join(sys.argv[1:])
 #########################
 # Running ffuf
 #########################
-cmd = f"ffuf -c -r -w {wordlist} -o scan-ffuf.txt -e {extensions} -t 64 -mc all -fc 404 -u {args}"
-print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{cmd}\"")
+if len(extensions) > 0: 
+    extension_cmd = f"-e {extensions}"
+else:
+    extension_cmd = ""
+
+cmd = f"ffuf -c -r -w {wordlist} -o scan-ffuf.txt {extension_cmd} -t 64 -mc all -fc 404 -u {args}"
+print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{Fore.WHITE}{Back.BLACK}{cmd}{Style.RESET_ALL}\"")
 os.system(cmd)
