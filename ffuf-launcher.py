@@ -77,6 +77,10 @@ if wordlist_answer == CUSTOM_LIST:
 else: 
     wordlist = WORDLISTS_CHOICES[wordlist_answer]
 
+if not os.path.exists(wordlist):
+    print(f"{Fore.RED}[!] The selected wordlist is not accessible. Check the configuration section in the file.{Style.RESET_ALL}")
+    sys.exit(1)    
+
 #########################
 # Selecting extensions
 #########################
