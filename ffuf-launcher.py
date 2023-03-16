@@ -101,6 +101,7 @@ if len(extensions) > 0:
 else:
     extension_cmd = ""
 
-cmd = f"ffuf -c -r -w {wordlist} -o scan-ffuf.txt {extension_cmd} -t 64 -mc all -fc 404 -u {args}"
+URL = args.split(" ")[0].replace("http://", "").replace("https://", "").replace("/FUZZ", "").replace("/", "_")
+cmd = f"ffuf -c -r -w {wordlist} -o scan-ffuf-{URL}.txt {extension_cmd} -t 64 -mc all -fc 404 -u {args}"
 print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{Fore.WHITE}{Back.BLACK}{cmd}{Style.RESET_ALL}\"")
 os.system(cmd)
