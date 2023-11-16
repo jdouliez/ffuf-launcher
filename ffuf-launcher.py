@@ -112,8 +112,9 @@ if "FUZZ" not in url:
     url += "FUZZ"
 
 other_args =  args.split(" ", 1)[1] if len(args.split(" ")) > 1 else "" 
+ua_arg = "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'" if "User-Agent" not in other_args else ""
 
 url_for_file = args.split(" ")[0].replace("http://", "").replace("https://", "").replace("/FUZZ", "").replace("/", "_")
-cmd = f"ffuf -c -r -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all -fc 404 -u {url} {other_args}"
+cmd = f"ffuf -c -r -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all -fc 404 -u {url} {other_args} {ua_arg}"
 print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{Fore.WHITE}{Back.BLACK}{cmd}{Style.RESET_ALL}\"")
 os.system(cmd)
