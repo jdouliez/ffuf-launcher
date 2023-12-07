@@ -61,13 +61,14 @@ WORDLISTS_CHOICES = {
     "directory-list-2.3-big.txt": "/usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-big.txt",
     "Bo0oM-fuzz.txt": "/usr/share/Bo0oM-fuzz.txt",
     "onelistforallmicro.txt": "/usr/share/onelistforallmicro.txt",
-    "jhaddix_content_discovery_all.txt": "/usr/share/jhaddix_content_discovery_all.txt"
+    "jhaddix_content_discovery_all.txt": "/usr/share/jhaddix_content_discovery_all.txt",
+    "BugBountyWordlist (custom)": "/usr/share/BugBountyWordlist.txt"
 }
 
 ## Adapt these paths with your personal filesystem
 WORDLISTS_FOLDER_PATHS = [".", "/usr/share/SecLists/Discovery/Web-Content/", "/usr/share/wordlists"]
 
-EXTENSIONS_CHOICES = [".html", ".js", ".php", ".log", ".zip", ".sql", ".txt", ".pdf", ".xml", ".conf", ".cfg", ".json", ".asp", ".aspx", ".jsp", ".py", ".rb", ".doc", ".docx", ".xls", ".xslx", ".tar", ".tar.gz", ".tgz"]
+EXTENSIONS_CHOICES = [".html", ".js", ".php", ".jsp", ".log", ".zip", ".sql", ".txt", ".pdf", ".xml", ".conf", ".cfg", ".json", ".asp", ".aspx", ".jsp", ".py", ".rb", ".doc", ".docx", ".xls", ".xslx", ".tar", ".tar.gz", ".tgz"]
 CUSTOM_LIST = "Custom list"
 
 #########################
