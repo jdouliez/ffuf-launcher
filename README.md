@@ -9,11 +9,11 @@
 ██║     ██║     ╚██████╔╝██║         ███████╗██║  ██║╚██████╔╝██║ ╚████║╚██████╗██║  ██║███████╗██║  ██║
 ╚═╝     ╚═╝      ╚═════╝ ╚═╝         ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  
 
-                                        By Eagleslam (@JDouliez)
+                                        By Ali@s (@JDouliez)
 ```
 ## Description
 
-This tool is a simple ffuf launcher which lets you select dynamically which wordlist and which extentions you want to fuzz.
+This tool is a simple ffuf wrapper which lets you select dynamically which wordlist and which extentions you want to fuzz with.
 
 ## Installation
 
@@ -45,7 +45,7 @@ $> python ffuf-launcher.py http://google.fr/FUZZ -h
 ██║     ██║     ╚██████╔╝██║         ███████╗██║  ██║╚██████╔╝██║ ╚████║╚██████╗██║  ██║███████╗██║  ██║
 ╚═╝     ╚═╝      ╚═════╝ ╚═╝         ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  
 
-                                        By Eagleslam (@JDouliez)
+                                        By Ali@s (@JDouliez)
 
 
 usage: Ffuf Launcher [-h] URL [ARGS]
@@ -53,7 +53,7 @@ usage: Ffuf Launcher [-h] URL [ARGS]
 This tool lets you dynamically choose your wordlist and your extension list to fuzz. Because each website is different.
 
 positional arguments:
-  URL         The url to fuzz. Must contains the FUZZ word
+  URL         The url to fuzz.
   ARGS        Any additional ffuf args. (Optional)
 
 optional arguments:
@@ -72,7 +72,7 @@ $> python ffuf-launcher.py http://example.com/FUZZ -fc 404,502 -fs 1337
 ██║     ██║     ╚██████╔╝██║         ███████╗██║  ██║╚██████╔╝██║ ╚████║╚██████╗██║  ██║███████╗██║  ██║
 ╚═╝     ╚═╝      ╚═════╝ ╚═╝         ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  
 
-                                        By Eagleslam (@JDouliez)
+                                        By Ali@s (@JDouliez)
 
 
 [?] Which wordlist do you want to fuzz with?: directory-list-2.3-medium.txt
