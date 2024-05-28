@@ -15,6 +15,9 @@
 
 This tool is a simple ffuf wrapper which lets you select dynamically which wordlist and which extentions you want to fuzz with.
 
+You can set up and use predefined wordlists, local wordlists you've just downloaded, or use the automated [Assetnotes wordlist](https://wordlists.assetnote.io/) for a specific theme.
+
+
 ## Installation
 
 Just install the python3 requirements...
@@ -75,14 +78,33 @@ $> python ffuf-launcher.py http://example.com/FUZZ -fc 404,502 -fs 1337
                                         By Ali@s (@JDouliez)
 
 
-[?] Which wordlist do you want to fuzz with?: directory-list-2.3-medium.txt
+[?] Which wordlist do you want to fuzz with?: ------------------------------------ 
+   ------------------------------------ 
    directory-list-2.3-small.txt
- > directory-list-2.3-medium.txt
+   directory-list-2.3-medium.txt
    directory-list-2.3-big.txt
-   Bo0oM-fuzz.txt
+ > Bo0oM-fuzz.txt
    onelistforallmicro.txt
    jhaddix_content_discovery_all.txt
-   Custom list
+   BugBountyWordlist (custom)
+   ------------------------------------ 
+   Custom/Local list
+   ------------------------------------
+   Specific (automated): txt (172.7kb)
+   Specific (automated): html / htm (2.7mb)
+   Specific (automated): xml (181.9kb)
+   Specific (automated): php (1.3mb)
+   Specific (automated): js (52.0mb)
+   Specific (automated): jsp / jspa / do / action (212.9kb)
+   Specific (automated): aspx / asp / cfm / svc / ashx / asmx (837.0kb)
+   Specific (automated): subdomains (33.0mb)
+   Specific (automated): apiroutes (8.5mb)
+   Specific (automated): directories / 1m (19.0mb)
+   Specific (automated): cgi / pl (37.4kb)
+   Specific (automated): parameters / top / 1m (3.4mb)
+   Specific (manual): pl.txt (4.4mb)
+   Specific (manual): 2m-subdomains.txt (28.0mb)
+   [....]
 
 [?] What extensions do you want to fuzz?: 
    [X] .php
@@ -99,7 +121,7 @@ $> python ffuf-launcher.py http://example.com/FUZZ -fc 404,502 -fs 1337
    [ ] .aspx
    [ ] .jsp
 
-[*] Running command "ffuf -c -r -w /usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -o scan-ffuf-example.com.txt -e .html,.js,.php,.sql,.xml -t 64 -mc all -fc 404 -u http://example.com/FUZZ -fc 404,502 -fs 1337"
+[*] Running command "ffuf -c -r -w /usr/share/wordlists/Bo0oM-fuzz.txt -o scan-ffuf-example.com.txt -e .html,.js,.php,.sql,.xml -t 64 -mc all -fc 404 -u http://example.com/FUZZ -fc 404,502 -fs 1337"
 
         /'___\  /'___\           /'___\       
        /\ \__/ /\ \__/  __  __  /\ \__/       
@@ -113,7 +135,7 @@ ________________________________________________
 
  :: Method           : GET
  :: URL              : http://example.com/FUZZ
- :: Wordlist         : FUZZ: /usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+ :: Wordlist         : FUZZ: /usr/share/wordlists/Bo0oM-fuzz.txt
  :: Extensions       : .html .js .php .sql .xml 
  :: Output file      : scan-ffuf-example.com.txt
  :: File format      : json
