@@ -151,6 +151,23 @@ for arg in sys.argv[1:]:
         args_array.append(f"'{arg}'")  
 
 args = " ".join(args_array)
+url = args.split(" ")[0]
+
+############################
+# Applying dynamic filters
+############################
+simple_url = url.replace("/FUZZ", "")
+response1 = requests.get(f'{simple_url}/idontguessitcouldexist.idk')
+response2 = requests.get(f'{simple_url}/sdjhfskdfhskfruskuhfksudhfksdjhf.ldsjf')
+fc_cmd = ""
+
+
+if response1.status_code == response2.status_code == 404:
+  reponse1_lines_count = len(response1.text.splitlines())
+  reponse2_lines_count = len(response2.text.splitlines())
+
+  if reponse1_lines_count == reponse2_lines_count:
+    fc_cmd = f"-fl {reponse1_lines_count}"
 
 #########################
 # Running ffuf
@@ -167,6 +184,6 @@ other_args =  args.split(" ", 1)[1] if len(args.split(" ")) > 1 else ""
 ua_arg = " -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'" if "User-Agent" not in other_args else ""
 
 url_for_file = args.split(" ")[0].replace("http://", "").replace("https://", "").replace("/FUZZ", "").replace("/", "_")
-cmd = f"ffuf -c -ic -r -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all -u {url} {other_args}{ua_arg}"
+cmd = f"ffuf -c -ic -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all {fc_cmd} -u {url} {other_args}{ua_arg}"
 print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{Fore.WHITE}{Back.BLACK}{cmd}{Style.RESET_ALL}\"")
 os.system(cmd)
