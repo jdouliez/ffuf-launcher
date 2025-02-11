@@ -98,10 +98,10 @@ for file in requests.get("https://wordlists-cdn.assetnote.io/data/manual.json").
     ASSETNOTES_WORDLISTS_CHOICES[name] = link
 
 
-wordlists_question = [inquirer.List('choice',message="Which wordlist do you want to fuzz with?", choices=['------------------------------------ ', *WORDLISTS_CHOICES, '------------------------------------ ', CUSTOM_LIST, '------------------------------------', *ASSETNOTES_WORDLISTS_CHOICES])]
+wordlists_question = [inquirer.List('choice',message="Which wordlist do you want to fuzz with?", choices=['---------------- CLASSIC ----------------', *WORDLISTS_CHOICES, '---------------- CUSTOM ---------------- ', CUSTOM_LIST, '---------------- ASSETNOTES ----------------', *ASSETNOTES_WORDLISTS_CHOICES])]
 wordlist_answer = inquirer.prompt(wordlists_question)["choice"]
 
-if wordlist_answer == '------------------------------------ ':
+if wordlist_answer.startswith('----------------'):
     exit(1)
 elif wordlist_answer == CUSTOM_LIST:
     output = subprocess.check_output("find " + " ".join(WORDLISTS_FOLDER_PATHS) + " -type f -name '*.txt' 2>/dev/null | fzf", shell=True)
@@ -155,10 +155,7 @@ args = " ".join(args_array)
 #########################
 # Running ffuf
 #########################
-if len(extensions) > 0:
-    extension_cmd = f"-e {extensions}"
-else:
-    extension_cmd = ""
+extension_cmd = f"-e {extensions}" if len(extensions) > 0 else ""
 
 url = args.split(" ")[0]
 if "FUZZ" not in url:
@@ -170,6 +167,6 @@ other_args =  args.split(" ", 1)[1] if len(args.split(" ")) > 1 else ""
 ua_arg = " -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'" if "User-Agent" not in other_args else ""
 
 url_for_file = args.split(" ")[0].replace("http://", "").replace("https://", "").replace("/FUZZ", "").replace("/", "_")
-cmd = f"ffuf -c -ic -r -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all -fc 404 -u {url} {other_args}{ua_arg}"
+cmd = f"ffuf -c -ic -r -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all -u {url} {other_args}{ua_arg}"
 print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{Fore.WHITE}{Back.BLACK}{cmd}{Style.RESET_ALL}\"")
 os.system(cmd)
