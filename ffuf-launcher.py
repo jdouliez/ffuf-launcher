@@ -157,8 +157,8 @@ url = args.split(" ")[0]
 # Applying dynamic filters
 ############################
 simple_url = url.replace("/FUZZ", "")
-response1 = requests.get(f'{simple_url}/idontguessitcouldexist.idk')
-response2 = requests.get(f'{simple_url}/sdjhfskdfhskfruskuhfksudhfksdjhf.ldsjf')
+response1 = requests.get(f'{simple_url}/idontguessitcouldexist.idk', verify=False)
+response2 = requests.get(f'{simple_url}/sdjhfskdfhskfruskuhfksudhfksdjhf.ldsjf', verify=False)
 fc_cmd = ""
 
 
