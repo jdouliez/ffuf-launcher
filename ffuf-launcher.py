@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+import shutil
 from bs4 import BeautifulSoup
 import inquirer
 import subprocess
@@ -10,6 +11,8 @@ import os
 from distutils.spawn import find_executable
 from colorama import init, Fore, Back, Style
 import requests
+import warnings
+warnings.filterwarnings("ignore")
 
 #########################
 # Init
@@ -46,11 +49,11 @@ def is_number(var):
     pattern = re.compile(r'^-?\d+(\.\d+)?$')
     return bool(pattern.match(str(var)))
 
-if find_executable("fzf") is None:
+if shutil.which("fzf") is None:
     print(f"{Fore.RED}[!] fzf tool is not installed (https://github.com/junegunn/fzf).\nPlease run \"sudo apt install fzf\"{Style.RESET_ALL}")
     sys.exit(1)
 
-if find_executable("ffuf") is None:
+if shutil.which("ffuf") is None:
     print(f"{Fore.RED}[!] ffuf tool is not installed (https://github.com/ffuf/ffuf).\n Please run \"go install github.com/ffuf/ffuf/v2@latest\"{Style.RESET_ALL}")
     sys.exit(1)
 
@@ -64,14 +67,14 @@ if not os.path.isdir(scans_path):
 
 ## Adapt these choices with your personal wordlists
 WORDLISTS_CHOICES = {
-    "directory-list-2.3-small.txt": "/usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt",
-    "directory-list-2.3-medium.txt": "/usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt",
-    "directory-list-2.3-big.txt": "/usr/share/SecLists/Discovery/Web-Content/directory-list-2.3-big.txt",
-    "Bo0oM-fuzz.txt": "/usr/share/Bo0oM-fuzz.txt",
     "onelistforallmicro.txt": "/usr/share/onelistforallmicro.txt",
+    "raft-small-words.txt": "/usr/share/SecLists/Discovery/Web-Content/raft-small-words.txt",
+    "raft-medium-words.txt": "/usr/share/SecLists/Discovery/Web-Content/raft-medium-words.txt",
+    "raft-large-words.txt": "/usr/share/SecLists/Discovery/Web-Content/raft-large-words.txt",
+    "Bo0oM-fuzz.txt": "/usr/share/Bo0oM-fuzz.txt",
     "jhaddix_content_discovery_all.txt": "/usr/share/jhaddix_content_discovery_all.txt",
-    "BugBountyWordlist (custom)": "/usr/share/BugBountyWordlist.txt"
 }
+
 
 ## Adapt these paths with your personal filesystem
 WORDLISTS_FOLDER_PATHS = [".", "/usr/share/SecLists/Discovery/Web-Content/", "/usr/share/wordlists"]
@@ -83,6 +86,12 @@ ASSETNOTES_WORDLISTS_CHOICES = {}
 #########################
 # Selecting one wordlist
 #########################
+
+# Filter not existing wordlist on the filesystem
+WORDLISTS_CHOICES = {
+    key: value for key, value in WORDLISTS_CHOICES.items() 
+    if os.path.isfile(value)
+}
 
 # Let's use the Assetnote Wordlists (https://wordlists.assetnote.io/)
 for file in requests.get("https://wordlists-cdn.assetnote.io/data/automated.json").json()['data']:
@@ -159,14 +168,15 @@ url = args.split(" ")[0]
 simple_url = url.replace("/FUZZ", "")
 response1 = requests.get(f'{simple_url}/idontguessitcouldexist.idk', verify=False)
 response2 = requests.get(f'{simple_url}/sdjhfskdfhskfruskuhfksudhfksdjhf.ldsjf', verify=False)
+response3 = requests.get(f'{simple_url}/checking-security', verify=False)
 fc_cmd = ""
 
-
-if response1.status_code == response2.status_code == 404:
+if response1.status_code == response2.status_code == response3.status_code:
   reponse1_lines_count = len(response1.text.splitlines())
   reponse2_lines_count = len(response2.text.splitlines())
+  reponse3_lines_count = len(response3.text.splitlines())
 
-  if reponse1_lines_count == reponse2_lines_count:
+  if reponse1_lines_count == reponse2_lines_count == reponse3_lines_count:
     fc_cmd = f"-fl {reponse1_lines_count}"
 
 #########################
