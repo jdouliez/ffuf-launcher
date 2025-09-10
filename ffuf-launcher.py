@@ -68,11 +68,11 @@ if not os.path.isdir(scans_path):
 ## Adapt these choices with your personal wordlists
 WORDLISTS_CHOICES = {
     "onelistforallmicro.txt": "/usr/share/onelistforallmicro.txt",
+    "Bo0oM-fuzz.txt": "/usr/share/Bo0oM-fuzz.txt",
+    "jhaddix_content_discovery_all.txt": "/usr/share/jhaddix_content_discovery_all.txt",
     "raft-small-words.txt": "/usr/share/SecLists/Discovery/Web-Content/raft-small-words.txt",
     "raft-medium-words.txt": "/usr/share/SecLists/Discovery/Web-Content/raft-medium-words.txt",
     "raft-large-words.txt": "/usr/share/SecLists/Discovery/Web-Content/raft-large-words.txt",
-    "Bo0oM-fuzz.txt": "/usr/share/Bo0oM-fuzz.txt",
-    "jhaddix_content_discovery_all.txt": "/usr/share/jhaddix_content_discovery_all.txt",
 }
 
 
@@ -142,7 +142,7 @@ if not os.path.exists(wordlist):
 #########################
 # Selecting extensions
 #########################
-if "Specific" not in wordlist_answer:
+if "Specific" not in wordlist_answer and "onelistforallmicro.txt" not in wordlist_answer and "Bo0oM-fuzz.txt" not in wordlist_answer and "jhaddix_content_discovery_all.txt" not in wordlist_answer:
     extensions_question = [inquirer.Checkbox('choice', message="What extensions do you want to fuzz?", choices=EXTENSIONS_CHOICES)]
     extension_as_list = inquirer.prompt(extensions_question)["choice"]
     if len(extension_as_list) == 0:
@@ -165,6 +165,9 @@ url = args.split(" ")[0]
 ############################
 # Applying dynamic filters
 ############################
+# This remove responses from the final scan not giving good results (mostly HTTP/404 but can be anything else). 
+# We test three requests expecting bad results. Then we strictly remove futur reponses based on the number of lines we got from the three results.
+
 simple_url = url.replace("/FUZZ", "")
 response1 = requests.get(f'{simple_url}/idontguessitcouldexist.idk', verify=False)
 response2 = requests.get(f'{simple_url}/sdjhfskdfhskfruskuhfksudhfksdjhf.ldsjf', verify=False)
@@ -196,4 +199,5 @@ ua_arg = " -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (K
 url_for_file = args.split(" ")[0].replace("http://", "").replace("https://", "").replace("/FUZZ", "").replace("/", "_")
 cmd = f"ffuf -c -ic -w {wordlist} -o scans/scan-ffuf-{url_for_file}.txt {extension_cmd} -t 64 -mc all {fc_cmd} -u {url} {other_args}{ua_arg}"
 print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Running command \"{Fore.WHITE}{Back.BLACK}{cmd}{Style.RESET_ALL}\"")
+
 os.system(cmd)
