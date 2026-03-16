@@ -13,9 +13,17 @@
 ```
 ## Description
 
-This tool is a simple ffuf wrapper which lets you select dynamically which wordlist and which extentions you want to fuzz with.
+This tool is a simple ffuf wrapper which lets you select dynamically which wordlist and which extensions you want to fuzz with.
 
 You can set up and use predefined wordlists, local wordlists you've just downloaded, or use the automated [Assetnotes wordlist](https://wordlists.assetnote.io/) for a specific theme.
+
+### Dynamic probe (filter by response size)
+
+Before each scan, the tool sends 5 probe requests to non-existent paths. It detects the most common response **size** (in bytes) and filters it via ffuf's `-fs` flag. This avoids blocking HTTP 404 by default—the filter is based on response size, not status code. Sites that return 200 with a custom "not found" page, or variable 404 sizes, are handled correctly. If you pass `-fs` or `-fl` yourself, the dynamic probe is skipped.
+
+### Memory (preselection per URL)
+
+Your last wordlist and extension choices are saved per URL in `~/.config/ffuf-launcher/scan_memory.json`. When you run a second scan on the same URL, the previous selections are preselected so you can confirm with Enter or change them.
 
 
 ## Installation
@@ -31,7 +39,7 @@ $> pip3 install -r requirements.txt
 $> sudo apt install fzf
 
 # https://github.com/ffuf/ffuf
-$> go install github.com/ffuf/ffuf@lates
+$> go install github.com/ffuf/ffuf/v2@latest
 
 # Add an alias for the fun
 $> alias ffufscan="$(pwd)/ffuf-launcher.py"
